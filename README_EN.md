@@ -16,7 +16,7 @@ This project mainly serves as practice for integrating with LLM API.
 
 Gemini's video analysis function extracts image frames at 1 frame per second and audio at 1Kbps. Each frame input consumes 258 tokens, and each second of audio input consumes 32 tokens. Each second of video content becomes about 300 tokens, which means a 1 million token context window can only hold slightly less than an hour of video content. Reference: [Gemini Vision Technical Details](https://ai.google.dev/gemini-api/docs/vision?hl=en&lang=python#technical-details-video).
 
-Based on current testing, Gemini's results are more accurate when analyzing 2-4 minute videos. Longer videos can be processed, but I find the responses less satisfactory. For details, please refer to [Model Test Records](model_test_record.md)
+Based on current testing, Gemini's results are more accurate when analyzing 2-4 minute videos. Longer videos can be processed, but I find the responses less satisfactory. For details, please refer to [Model Test Records](model_test_record.md).
 
 ## System Requirements
 - Windows 10 or higher
@@ -37,7 +37,7 @@ Based on current testing, Gemini's results are more accurate when analyzing 2-4 
 
 ### 3. Clone Project
 ```
-git clone https://github.com/ghosting0942/Feilun02.git
+git clone https://github.com/BunnRecord/VideoClipExtractionToolGemini.git
 ```
 
 ### 4. Install Dependencies

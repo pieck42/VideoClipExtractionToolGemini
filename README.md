@@ -16,7 +16,7 @@
 
 Gemini 视频分析功能是通过每秒 1 帧提取图片帧，并以 1Kbps 的速度提取音频，单帧图片输入消耗 258 token，每秒音频输入消耗 32 token，每秒视频内容会变成大约 300 个令牌，这意味着 100 万个 token 的上下文窗口只能容纳略低于一小时的视频内容，参考链接：[Gemini 视觉技术细节](https://ai.google.dev/gemini-api/docs/vision?hl=zh-cn&lang=python#technical-details-video)。
 
-Gemini 的效果目前测试感觉，在分析 2 - 4 分钟的视频时得到的结果比较准确。可以传入比较长的视频，但是我觉得回答的效果差强人意。详情可以参考 [模型测试记录]。(model_test_record.md)
+Gemini 的效果目前测试感觉，在分析 2 - 4 分钟的视频时得到的结果比较准确。可以传入比较长的视频，但是我觉得回答的效果差强人意。详情可以参考 [模型测试记录](model_test_record.md)。
 
 ## 系统要求
 - Windows 10 或更高版本
@@ -38,7 +38,7 @@ Gemini 的效果目前测试感觉，在分析 2 - 4 分钟的视频时得到的
 ### 3. 拉取项目
 
 ```
-git clone https://github.com/ghosting0942/Feilun02.git
+git clone https://github.com/BunnRecord/VideoClipExtractionToolGemini.git
 ```
 
 ### 4. 安装项目依赖
