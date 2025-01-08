@@ -1,0 +1,37 @@
+```mermaid
+flowchart TD
+    %% Set unified gray theme
+    style A fill:#333,stroke:#666,color:#fff
+    style B fill:#333,stroke:#666,color:#fff
+    style C fill:#333,stroke:#666,color:#fff
+    style D fill:#333,stroke:#666,color:#fff
+    style E fill:#333,stroke:#666,color:#fff
+    style F fill:#333,stroke:#666,color:#fff
+    style G fill:#333,stroke:#666,color:#fff
+    style H fill:#333,stroke:#666,color:#fff
+    style I fill:#333,stroke:#666,color:#fff
+    style J fill:#333,stroke:#666,color:#fff
+    style K fill:#333,stroke:#666,color:#fff
+
+    A[Start] --> B[Select Input Video]
+    B --> C[Video Segmentation]
+    C --> D[Segmented Video Clips]
+    D --> E[Video Compression]
+    
+    subgraph Video Analysis Process
+        E --> F[Gemini AI Analysis]
+        F --> G[Generate Timeline JSON]
+    end
+    
+    G --> H[Extract Video Clips Based on JSON]
+    H --> I[Output Final Clips]
+    I --> J[Merge All JSON Files]
+    J --> K[End]
+    
+    %% Add descriptive text
+    C -- "120s per segment" --> D
+    E -- "Compress for analysis" --> F
+    F -- "Detect character appearances" --> G
+    G -- "Contains start/end times" --> H
+    J -- "Generate complete timeline" --> K
+```

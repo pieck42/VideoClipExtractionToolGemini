@@ -1,0 +1,37 @@
+```mermaid
+flowchart TD
+    %% 设置统一的灰色主题
+    style A fill:#333,stroke:#666,color:#fff
+    style B fill:#333,stroke:#666,color:#fff
+    style C fill:#333,stroke:#666,color:#fff
+    style D fill:#333,stroke:#666,color:#fff
+    style E fill:#333,stroke:#666,color:#fff
+    style F fill:#333,stroke:#666,color:#fff
+    style G fill:#333,stroke:#666,color:#fff
+    style H fill:#333,stroke:#666,color:#fff
+    style I fill:#333,stroke:#666,color:#fff
+    style J fill:#333,stroke:#666,color:#fff
+    style K fill:#333,stroke:#666,color:#fff
+
+    A[开始] --> B[选择输入视频文件]
+    B --> C[视频分割处理]
+    C --> D[分割后的视频片段]
+    D --> E[视频压缩处理]
+    
+    subgraph 视频分析流程
+        E --> F[Gemini AI 分析]
+        F --> G[生成时间线JSON]
+    end
+    
+    G --> H[根据JSON提取视频片段]
+    H --> I[输出最终提取片段]
+    I --> J[合并所有JSON文件]
+    J --> K[结束]
+    
+    %% 添加说明文字
+    C -- "每 120s 一个片段" --> D
+    E -- "压缩视频便于分析" --> F
+    F -- "识别角色出现时间" --> G
+    G -- "包含开始/结束时间" --> H
+    J -- "生成完整时间线" --> K
+```
