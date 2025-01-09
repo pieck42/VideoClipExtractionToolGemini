@@ -212,3 +212,13 @@ While Pro provides better analysis than Flash, it's significantly more expensive
 
 ## Technical Support
 If you encounter any issues, please submit an Issue or contact the developer at ghosting0942@gmail.com.
+
+## Gemini Reference Links
+
+- Use Gemini online: [Google AI Studio](https://aistudio.google.com/prompts/new_chat)
+
+- [Gemini API Reference Documentation](https://ai.google.dev/gemini-api/docs?hl=zh-cn)
+
+- [Gemini API Pricing](https://ai.google.dev/pricing)
+
+- [Gemini 2.0 Official Introduction](https://ai.google.dev/pricing)

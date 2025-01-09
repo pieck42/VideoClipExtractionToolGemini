@@ -218,6 +218,15 @@ Gemini 1.5 Pro
 
 Pro 的分析效果比 Flash 好一些，但花费是高很多的，不过模型费率过一段时间就会降很多，Gemini 2.0 的模型也快正式上线了，后续还是值得期待的。
 
+## Gemini 参考链接
+
+- 在线使用Gemini ：[Google AI Studio](https://aistudio.google.com/prompts/new_chat)
+
+- [Gemini API 参考文档](https://ai.google.dev/gemini-api/docs?hl=zh-cn)
+
+- [Gemini API 价格](https://ai.google.dev/pricing)
+
+- [Gemini 2.0 官方介绍](https://ai.google.dev/pricing)
 
 ## 常见问题
 1. 如果提示 "ffmpeg 不是内部或外部命令"，请检查 FFmpeg 是否正确添加到环境变量
