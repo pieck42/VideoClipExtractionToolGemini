@@ -29,8 +29,9 @@ MODEL_CONFIG = {
 SELECTED_MODEL = 'gemini-1.5-flash'  # 默认选择快速版
 # SELECTED_MODEL = 'gemini-1.5-pro'
 
-ENABLE_COMPRESSION = True  # 是否启用视频压缩，默认为True
 SEGMENT_DURATION = 180  # 视频分段时长（秒）
+ENABLE_COMPRESSION = True  # 是否启用视频压缩，默认为True
+COMPRESSION_SIZE = 50  # 视频压缩大小，默认为50MB
 
 # 固定的图片路径和提示词
 CHARACTER_IMAGE_PATH = r"D:\Project\18.Feilun\Feilun01\input\Feilun.png"
@@ -78,7 +79,7 @@ os.environ['HTTPS_PROXY'] = 'http://127.0.0.1:7890'
 os.environ['HTTP_PROXY'] = 'http://127.0.0.1:7890'
 
 
-def compress_video_before_upload(input_file, target_size_mb=50):
+def compress_video_before_upload(input_file, target_size_mb):
     """在上传前压缩视频"""
     logger.info(f"开始压缩视频: {input_file}")
     logger.info(f"目标大小: {target_size_mb}MB")
@@ -317,8 +318,8 @@ def process_single_video(video_path, model, chat, image_file, total_videos, curr
         
         # 根据配置决定是否压缩视频
         if ENABLE_COMPRESSION:
-            video_path_for_analysis = compress_video_before_upload(video_path)
-            logger.info("视频压缩已启用，使用压缩后的视频进行分析")
+            video_path_for_analysis = compress_video_before_upload(video_path, COMPRESSION_SIZE)
+            logger.info(f"视频压缩已启用，使用压缩后的视频进行分析，压缩后大小为{COMPRESSION_SIZE}MB")
         else:
             video_path_for_analysis = video_path
             logger.info("视频压缩已禁用，使用原始视频进行分析")

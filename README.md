@@ -18,6 +18,12 @@ Gemini 视频分析功能是通过每秒 1 帧提取图片帧，并以 1Kbps 的
 
 Gemini 的效果目前测试感觉，在分析 2 - 4 分钟的视频时得到的结果比较准确。可以传入比较长的视频，但是我觉得回答的效果差强人意。详情可以参考 [模型测试记录](model_test_record.md)。
 
+## 视频介绍
+
+项目识别效果介绍：[Gemini，你知道菲伦在干嘛吗？](https://www.bilibili.com/video/BV1B5rkYZEnh/?vd_source=174b189b0a6353093f9f16b62575a061)
+
+项目安装使用介绍：[视频片段提取工具安装使用教程](https://www.bilibili.com/video/BV1B2cjezEfV/?share_source=copy_web&vd_source=1391c8f8d1aa1c34f279bdb28f57666c)
+
 ## 系统要求
 - Windows 10 或更高版本
 - Python 3.8+
@@ -74,13 +80,17 @@ pip install -r requirements.txt
 
    SEGMENT_DURATION（分割视频的时间长度）、
 
+   ENABLE_COMPRESSION（是否启用视频压缩）、
+
+   COMPRESSION_SIZE（视频压缩大小）、
+
    CHARACTER_IMAGE_PATH（角色参考图片地址）、
 
    CHARACTER_PROMPT（分析角色特征提示词）、
 
    VIDEO_PROMPT（分析视频内容提示词）、
    
-   CLIP_TIME_BUFFER（根据json片段时间线提取视频片段的前后缓冲时间）
+   CLIP_TIME_BUFFER（根据json片段时间线提取视频片段的前后缓冲时间，避免提取出的视频片段过短）
 
 3. 命令行输入 `python 7.videoprocess.py` 运行。
 

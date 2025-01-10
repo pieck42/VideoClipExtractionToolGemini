@@ -65,10 +65,12 @@ Note: Please keep your API key secure and do not expose it in public code
    - GOOGLE_API_KEY (Gemini API key)
    - SELECTED_MODEL (Choose Gemini model)
    - SEGMENT_DURATION (Video segment duration)
+   - ENABLE_COMPRESSION (Enable video compression)
+   - COMPRESSION_SIZE (Video compression size)
    - CHARACTER_IMAGE_PATH (Character reference image path)
    - CHARACTER_PROMPT (Character analysis prompt)
    - VIDEO_PROMPT (Video content analysis prompt)
-   - CLIP_TIME_BUFFER (Buffer time for extracted video clips)
+   - CLIP_TIME_BUFFER (Buffer time before and after video clips based on JSON timeline, to avoid extracted clips being too short)
 
 3. Run `python 7.videoprocess.py` in command line.
 
@@ -222,3 +224,9 @@ If you encounter any issues, please submit an Issue or contact the developer at 
 - [Gemini API Pricing](https://ai.google.dev/pricing)
 
 - [Gemini 2.0 Official Introduction](https://ai.google.dev/pricing)
+
+## Video Introduction
+
+Project Recognition Demo: [Gemini, do you know what Fern is doing?](https://www.bilibili.com/video/BV1B5rkYZEnh/?vd_source=174b189b0a6353093f9f16b62575a061)
+
+Installation and Usage Tutorial: [Video Clip Extraction Tool Installation and Usage Guide](https://www.bilibili.com/video/BV1B2cjezEfV/?share_source=copy_web&vd_source=1391c8f8d1aa1c34f279bdb28f57666c)

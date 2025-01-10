@@ -38,6 +38,11 @@ GOOGLE_API_KEY = 'xxx'  #输入你的Gemini API Key
 
 genai.configure(api_key=GOOGLE_API_KEY)
 
+# 在配置部分添加压缩控制参数
+ENABLE_COMPRESSION = True  # 是否启用视频压缩，默认为True
+COMPRESSION_SIZE = 50  # 视频压缩大小，默认为50MB
+
+
 # 固定的图片路径和提示词
 CHARACTER_IMAGE_PATH = r"D:\Project\18.Feilun\Feilun01\input\Feilun.png"
 CHARACTER_PROMPT = """这个是菲伦，紫色头发的，你需要仔细记住她的人物特征，等下会基于此进行视频分析"""
@@ -66,20 +71,18 @@ MODEL_CONFIG = {
     'gemini-1.5-flash': '快速版 - 适用于一般任务',
     'gemini-2.0-flash-exp': '实验版 - 新特性测试'
 }
-# SELECTED_MODEL = 'gemini-1.5-flash'  # 默认选择快速版
-SELECTED_MODEL = 'gemini-1.5-pro'
+SELECTED_MODEL = 'gemini-1.5-flash'  # 默认选择快速版
+# SELECTED_MODEL = 'gemini-1.5-pro'
 
 CLIP_TIME_BUFFER = 2  # 视频片段前后的缓冲时间（秒）
 
-# 在配置部分添加压缩控制参数
-ENABLE_COMPRESSION = True  # 是否启用视频压缩，默认为True
 
 # 设置代理
 os.environ['HTTPS_PROXY'] = 'http://127.0.0.1:7890'
 os.environ['HTTP_PROXY'] = 'http://127.0.0.1:7890'
 
 
-def compress_video_before_upload(input_file, target_size_mb=50):
+def compress_video_before_upload(input_file, target_size_mb):
     """在上传前压缩视频"""
     logger.info(f"开始压缩视频: {input_file}")
     logger.info(f"目标大小: {target_size_mb}MB")
@@ -340,9 +343,11 @@ def process_single_video(video_path, model, chat, image_file, total_videos, curr
         
         # 根据配置决定是否压缩视频
         if ENABLE_COMPRESSION:
-            video_path_for_analysis = compress_video_before_upload(video_path)
+            video_path_for_analysis = compress_video_before_upload(video_path, COMPRESSION_SIZE)
+            logger.info(f"视频压缩已启用，使用压缩后的视频进行分析，压缩后大小为{COMPRESSION_SIZE}MB")
         else:
             video_path_for_analysis = video_path
+            logger.info("视频压缩已禁用，使用原始视频进行分析")
         
         # 上传视频
         video_file = upload_media_with_retry(video_path_for_analysis, "视频")
