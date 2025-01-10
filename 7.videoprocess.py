@@ -16,9 +16,20 @@ import json
 import subprocess
 import math
 from tkinter.filedialog import askopenfilename, askopenfilenames
+from dotenv import load_dotenv
+
+# 加载 .env 文件
+load_dotenv()
 
 # 配置API密钥
-GOOGLE_API_KEY = 'xxx'  #输入你的Gemini API Key
+GOOGLE_API_KEY = os.getenv('GOOGLE_API_KEY')
+if not GOOGLE_API_KEY:
+    raise ValueError("请在 .env 文件中设置 GOOGLE_API_KEY")
+
+# #或直接输入GOOGLE_API_KEY
+# GOOGLE_API_KEY = 'xxx'  #输入你的Gemini API Key
+
+
 genai.configure(api_key=GOOGLE_API_KEY)
 
 MODEL_CONFIG = {

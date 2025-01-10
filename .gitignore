@@ -28,6 +28,8 @@ var/
 
 # 环境配置
 .env
+.env.local
+.env.*.local
 .venv
 venv/
 ENV/

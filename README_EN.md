@@ -57,28 +57,54 @@ Note: Please keep your API key secure and do not expose it in public code
 
 ## Usage Instructions
 
-### 1. Basic Operations
+### 1. Configure API Key
+
+There are two ways to configure your API key:
+
+#### Method 1: Using .env file (Recommended)
+
+1. Create a `.env` file in the project root directory
+2. Add the following content to the `.env` file:
+   ```
+   GOOGLE_API_KEY=your_api_key_here
+   ```
+3. Add `.env` to your `.gitignore` file to prevent committing the key to the repository
+
+#### Method 2: Direct code configuration
+
+Configure `GOOGLE_API_KEY` directly in the Python files (Not recommended as you might accidentally commit your key to the repository)
+
+### 2. Basic Operations
 
 1. Enable proxy for internet access.
 
-2. Open `7.videoprocess.py` to configure parameters:
-   - GOOGLE_API_KEY (Gemini API key)
-   - SELECTED_MODEL (Choose Gemini model)
-   - SEGMENT_DURATION (Video segment duration)
-   - ENABLE_COMPRESSION (Enable video compression)
-   - COMPRESSION_SIZE (Video compression size)
-   - CHARACTER_IMAGE_PATH (Character reference image path)
-   - CHARACTER_PROMPT (Character analysis prompt)
-   - VIDEO_PROMPT (Video content analysis prompt)
-   - CLIP_TIME_BUFFER (Buffer time before and after video clips based on JSON timeline, to avoid extracted clips being too short)
+2. Ensure API key is properly configured (using Method 1 or Method 2 above)
 
-3. Run `python 7.videoprocess.py` in command line.
+3. Open `7.videoprocess.py` to configure other parameters:
 
-4. Select video files in the popup window.
+   SELECTED_MODEL (Choose Gemini model),
 
-5. The process will run automatically.
+   SEGMENT_DURATION (Video segment duration),
 
-6. If an error occurs, check which Part failed and use `6.videoprocess.py` to continue processing that specific Part.
+   ENABLE_COMPRESSION (Enable video compression),
+
+   COMPRESSION_SIZE (Video compression size),
+
+   CHARACTER_IMAGE_PATH (Character reference image path),
+
+   CHARACTER_PROMPT (Character analysis prompt),
+
+   VIDEO_PROMPT (Video content analysis prompt),
+   
+   CLIP_TIME_BUFFER (Buffer time before and after video clips based on JSON timeline, to avoid extracted clips being too short)
+
+4. Run `python 7.videoprocess.py` in command line.
+
+5. Select video files in the popup window.
+
+6. The process will run automatically.
+
+7. If an error occurs, check which Part failed and use `6.videoprocess.py` to continue processing that specific Part.
 
 ### 2. Program Flow
 

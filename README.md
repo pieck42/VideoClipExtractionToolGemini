@@ -66,15 +66,30 @@ pip install -r requirements.txt
 
 ## 使用说明
 
+### 1. 配置 API 密钥
 
+有两种方式配置 API 密钥：
 
-### 1. 基本操作
+#### 方式一：使用 .env 文件（推荐）
+
+1. 在项目根目录创建 `.env` 文件
+2. 在 `.env` 文件中添加以下内容：
+   ```
+   GOOGLE_API_KEY=你的_API_密钥
+   ```
+3. 将 `.env` 添加到 `.gitignore` 文件中以避免将密钥提交到代码仓库
+
+#### 方式二：直接在代码中配置
+
+直接在相关 Python 文件中设置 `GOOGLE_API_KEY`（不推荐，因为可能会不小心将密钥提交到代码仓库）
+
+### 2. 基本操作
 
 1. 打开科学上网。
 
-2. 打开 `7.videoprocess.py` 配置参数  
+2. 确保已正确配置 API 密钥（使用上述方式一或方式二）
 
-   GOOGLE_API_KEY（Gemini API密钥）、
+3. 打开 `7.videoprocess.py` 配置其他参数：
 
    SELECTED_MODEL（选择的 Gemini 模型）、
 
@@ -92,13 +107,13 @@ pip install -r requirements.txt
    
    CLIP_TIME_BUFFER（根据json片段时间线提取视频片段的前后缓冲时间，避免提取出的视频片段过短）
 
-3. 命令行输入 `python 7.videoprocess.py` 运行。
+4. 命令行输入 `python 7.videoprocess.py` 运行。
 
-4. 在弹出的界面中选择要处理的视频文件。
+5. 在弹出的界面中选择要处理的视频文件。
 
-5. 后续自动执行。
+6. 后续自动执行。
 
-6. 若出错，看在哪一 Part 出错，通过 `6.videoprocess.py` 选择对应Part继续进行分析提取。
+7. 若出错，看在哪一 Part 出错，通过 `6.videoprocess.py` 选择对应Part继续进行分析提取。
 
 ### 2. 程序流程
 
