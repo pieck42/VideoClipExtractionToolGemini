@@ -81,7 +81,7 @@ def split_video(input_file, segment_duration):
             'ffmpeg',
             '-i', input_file,
             '-map', '0:v:0',  # 只选择第一个视频流
-            '-map', '0:a:0',  # 只选择第一个音频流
+            '-map', '0:a:0?',  # 只选择第一个音频流
             '-c:v', 'copy',   # 复制视频流
             '-c:a', 'copy',   # 复制音频流
             '-f', 'segment',  # 使用分段格式

@@ -17,6 +17,7 @@ import subprocess
 import math
 from tkinter.filedialog import askopenfilename, askopenfilenames
 from dotenv import load_dotenv
+import threading
 
 # 加载 .env 文件
 load_dotenv()
@@ -89,6 +90,30 @@ logger = logging.getLogger(__name__)
 os.environ['HTTPS_PROXY'] = 'http://127.0.0.1:7890'
 os.environ['HTTP_PROXY'] = 'http://127.0.0.1:7890'
 
+# 添加全局变量来控制暂停状态
+is_paused = False
+pause_event = threading.Event()
+
+def check_pause():
+    """检查是否需要暂停"""
+    global is_paused
+    while is_paused:
+        pause_event.wait()  # 等待继续信号
+
+def pause_handler():
+    """处理暂停命令"""
+    global is_paused
+    while True:
+        command = input().lower().strip()
+        # 输入 pause 暂停程序，输入 continue 继续运行
+        if command == 'pause':
+            is_paused = True
+            logger.info("程序已暂停，输入 continue 继续...")
+        elif command == 'continue':
+            is_paused = False
+            pause_event.set()  # 发送继续信号
+            pause_event.clear()  # 重置事件
+            logger.info("程序继续运行...")
 
 def compress_video_before_upload(input_file, target_size_mb):
     """在上传前压缩视频"""
@@ -323,6 +348,7 @@ def extract_clips(video_path, json_path, total_videos, current_index):
 def process_single_video(video_path, model, chat, image_file, total_videos, current_index, character_response):
     """处理单个视频文件"""
     try:
+        check_pause()  # 检查是否需要暂停
         video_name = os.path.splitext(os.path.basename(video_path))[0]
         logger.info(f"=== 开始处理视频 [{current_index}/{total_videos}]: {video_name} ===")
         logger.info(f"视频路径: {video_path}")
@@ -337,6 +363,7 @@ def process_single_video(video_path, model, chat, image_file, total_videos, curr
         
         # 上传视频
         video_file = upload_media_with_retry(video_path_for_analysis, "视频")
+        check_pause()  # 检查是否需要暂停
         
         # 等待视频处理
         logger.info("等待视频处理完成...")
@@ -353,6 +380,7 @@ def process_single_video(video_path, model, chat, image_file, total_videos, curr
             raise ValueError(f"视频处理失败: {video_file.state.name}")
         
         # 发送第二轮问题
+        check_pause()  # 检查是否需要暂停
         logger.info(f"[{current_index}/{total_videos}] 开始发送视频分析请求...")
         start_time = time.time()
         video_response = send_message_with_retry(chat, [VIDEO_PROMPT, video_file])
@@ -543,7 +571,7 @@ def split_video(input_file, segment_duration):
             'ffmpeg',
             '-i', input_file,
             '-map', '0:v:0',
-            '-map', '0:a:0',
+            '-map', '0:a:0?',
             '-c:v', 'copy',
             '-c:a', 'copy',
             '-f', 'segment',
@@ -626,9 +654,7 @@ def merge_json_files(json_files):
         # 修改排序逻辑
         try:
             # 按Part数字排序
-            sorted_files = sorted(json_files, 
-                key=lambda x: int(re.search(r'Part(\d+)', x).group(1))
-            )
+            sorted_files = sorted(json_files, key=lambda x: int(re.search(r'Part(\d+)', x).group(1)))
         except (AttributeError, ValueError):
             # 如果无法按Part数字排序,就按文件名字母顺序排序
             sorted_files = sorted(json_files)
@@ -673,9 +699,14 @@ def merge_json_files(json_files):
 
 def batch_process():
     """批量处理视频"""
+    # 启动暂停处理线程
+    pause_thread = threading.Thread(target=pause_handler, daemon=True)
+    pause_thread.start()
+    
     start_time = time.time()
     logger.info("\n=== 7.videoprocess 开始 ===")
     logger.info("=== 批量视频处理启动 ===")
+    logger.info("随时可以输入 pause 暂停程序，输入 continue 继续运行")
     
     try:
         # 选择要分割的多个视频文件
@@ -715,8 +746,9 @@ def batch_process():
         
         # 处理每个输入视频
         for file_idx, input_file in enumerate(input_files, 1):
+            check_pause()  # 检查是否需要暂停
             video_basename = os.path.basename(input_file)
-            logger.info(f"\n=== 处理视频文件 [{file_idx}/{len(input_files)}]: {video_basename} ===")
+            logger.info(f"=== 处理视频文件 [{file_idx}/{len(input_files)}]: {video_basename} ===")
             logger.info(f"视频路径: {input_file}")
             
             # 执行视频分割
@@ -731,11 +763,12 @@ def batch_process():
             
             # 处理当前视频的所有片段
             for part_idx, video_path in enumerate(split_files, 1):
+                check_pause()  # 检查是否需要暂停
                 video_name = os.path.splitext(os.path.basename(video_path))[0]
                 base_name = re.sub(r'^Part\d+_|_compressedPart\d+.*$', '', video_name)
                 part_number = re.search(r'Part(\d+)', video_name).group(1)
                 
-                logger.info(f"\n=== 视频 [{file_idx}/{len(input_files)}] - Part {part_number} [{part_idx}/{len(split_files)}] ===")
+                logger.info(f"=== 视频 [{file_idx}/{len(input_files)}] - Part {part_number} [{part_idx}/{len(split_files)}] ===")
                 logger.info(f"视频名称: {video_name}")
                 logger.info(f"基础名称: {base_name}")
                 
@@ -749,6 +782,7 @@ def batch_process():
                 
                 # 处理视频片段
                 if process_single_video(video_path, model, chat, image_file, len(split_files), part_idx, character_response):
+                    check_pause()  # 检查是否需要暂停
                     total_successful += 1
                     logger.info(f"[视频 {file_idx}/{len(input_files)} - Part {part_number}] 处理成功")
                 else:
@@ -766,7 +800,7 @@ def batch_process():
             
             # 当前视频的所有片段处理完成，准备处理下一个视频
             if file_idx < len(input_files):
-                logger.info(f"\n[{file_idx}/{len(input_files)}] {video_basename} 处理完成，等待5秒后处理下一个视频...")
+                logger.info(f"[{file_idx}/{len(input_files)}] {video_basename} 处理完成，等待5秒后处理下一个视频...")
                 time.sleep(5)
         
         # 输出最终统计
